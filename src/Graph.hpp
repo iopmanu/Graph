@@ -9,13 +9,13 @@ template <typename T>
 class graph {
 private:
     array_sequence<array_sequence<T> *> *_graph = NULL;
+    bool is_directed = 0;
 
 public:
     /*==================================CONSTRUCTORS==================================*/
 
-    explicit graph() noexcept : _graph(new array_sequence<sequence<T> *>) {}
-
-    explicit graph(const std::size_t &elements_count) noexcept : _graph(new array_sequence<array_sequence<T> *>(elements_count)) {
+    explicit graph(const std::size_t &elements_count, const bool &direction) noexcept
+        : _graph(new array_sequence<array_sequence<T> *>(elements_count)), is_directed(direction) {
         for (std::size_t i = 0; i < _graph->get_size(); i++) {
             _graph->operator[](i) = new array_sequence<T>(elements_count);
         }
@@ -49,14 +49,22 @@ public:
 
     /*==================================METHODS==================================*/
 
-    void add_edge(const std::size_t &first_element, const std::size_t &second_element, const T &weight) {
-        this->_graph->operator[](first_element)->operator[](second_element) = std::move(weight);
+    void add_edge(const std::size_t &first_element, const std::size_t &second_element, const T &weight) noexcept {
         this->_graph->operator[](second_element)->operator[](first_element) = std::move(weight);
+        if (this->is_directed == false) {
+            this->_graph->operator[](first_element)->operator[](second_element) = std::move(weight);
+        }
     }
 
-    void delete_edge(const std::size_t &first_element, const std::size_t &second_element) {
-        this->_graph->operator[](first_element)->operator[](second_element) = std::move(T(0));
+    void delete_edge(const std::size_t &first_element, const std::size_t &second_element) noexcept {
         this->_graph->operator[](second_element)->operator[](first_element) = std::move(T(0));
+        if (this->is_directed == false) {
+            this->_graph->operator[](first_element)->operator[](second_element) = std::move(T(0));
+        }
+    }
+
+    const T &get_edge_weight(const std::size_t &first_element, const std::size_t &second_element) const noexcept {
+        return this->_graph->operator[](first_element)->operator[](second_element);
     }
 };
 
