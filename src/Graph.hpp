@@ -84,30 +84,30 @@ public:
         path_sequence->operator[](started_element) = 0;
 
         for (std::size_t i = 0; i < this->get_elements_quantity(); i++) {
-            std::size_t vertex = 4;
+            std::size_t vertex = INIT_CONST;
 
             for (std::size_t j = 0; j < this->get_elements_quantity(); j++) {
-                if (!visited_sequence->operator[](j) && (vertex == 4 || path_sequence->operator[](j) < path_sequence->operator[](vertex))) {
+                if (!visited_sequence->operator[](j) && (vertex == INIT_CONST || path_sequence->operator[](j) < path_sequence->operator[](vertex))) {
                     vertex = j;
                 }
+            }
 
-                if (path_sequence->operator[](vertex) == SIZE_MAX) {
-                    break;
+            if (path_sequence->operator[](vertex) == SIZE_MAX) {
+                break;
+            }
+
+            visited_sequence->operator[](vertex) = true;
+
+            for (std::size_t j = 0; j < this->get_elements_quantity(); j++) {
+                if (_graph->operator[](vertex)->operator[](j) == T(0)) {
+                    continue;
                 }
 
-                visited_sequence->operator[](vertex) = true;
+                std::size_t length = _graph->operator[](vertex)->operator[](j);
 
-                for (std::size_t j = 0; j < this->get_elements_quantity(); j++) {
-                    if (_graph->operator[](vertex)->operator[](j) == T(0)) {
-                        continue;
-                    }
-
-                    std::size_t length = _graph->operator[](vertex)->operator[](j);
-
-                    if (path_sequence->operator[](vertex) + length < path_sequence->operator[](j)) {
-                        path_sequence->operator[](j) = path_sequence->operator[](vertex) + length;
-                        parents_sequence->operator[](j) = vertex;
-                    }
+                if (path_sequence->operator[](vertex) + length < path_sequence->operator[](j)) {
+                    path_sequence->operator[](j) = path_sequence->operator[](vertex) + length;
+                    parents_sequence->operator[](j) = vertex;
                 }
             }
         }
