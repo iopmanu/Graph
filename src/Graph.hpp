@@ -90,44 +90,46 @@ public:
                 if (!visited_sequence->operator[](j) && (vertex == 4 || path_sequence->operator[](j) < path_sequence->operator[](vertex))) {
                     vertex = j;
                 }
+            }
 
-                if (path_sequence->operator[](vertex) == SIZE_MAX) {
-                    break;
+            if (path_sequence->operator[](vertex) == SIZE_MAX) {
+                break;
+            }
+
+            visited_sequence->operator[](vertex) = true;
+
+            for (std::size_t j = 0; j < this->get_elements_quantity(); j++) {
+                if (_graph->operator[](vertex)->operator[](j) == T(0)) {
+                    continue;
                 }
 
-                visited_sequence->operator[](vertex) = true;
+                std::size_t length = _graph->operator[](vertex)->operator[](j);
 
-                for (std::size_t j = 0; j < this->get_elements_quantity(); j++) {
-                    if (_graph->operator[](vertex)->operator[](j) == T(0)) {
-                        continue;
-                    }
-
-                    std::size_t length = _graph->operator[](vertex)->operator[](j);
-
-                    if (path_sequence->operator[](vertex) + length < path_sequence->operator[](j)) {
-                        path_sequence->operator[](j) = path_sequence->operator[](vertex) + length;
-                        parents_sequence->operator[](j) = vertex;
-                    }
+                if (path_sequence->operator[](vertex) + length < path_sequence->operator[](j)) {
+                    path_sequence->operator[](j) = path_sequence->operator[](vertex) + length;
+                    parents_sequence->operator[](j) = vertex;
                 }
             }
-        }
-
-        return path_sequence;
     }
 
-    graph<std::size_t> *get_adjency_matrix() const noexcept {
-        auto adjency_matrix = new graph<std::size_t>(this->_graph->get_size(), this->is_directed);
+    return path_sequence;
+}
 
-        for (std::size_t i = 0; i < _graph->get_size(); i++) {
-            for (std::size_t j = 0; j < _graph->get_size(); j++) {
-                if (this->_graph->operator[](i)->operator[](j) != T(0)) {
-                    adjency_matrix->add_edge(i, j, true);
-                }
+graph<std::size_t>
+    *get_adjency_matrix() const noexcept {
+    auto adjency_matrix = new graph<std::size_t>(this->_graph->get_size(), this->is_directed);
+
+    for (std::size_t i = 0; i < _graph->get_size(); i++) {
+        for (std::size_t j = 0; j < _graph->get_size(); j++) {
+            if (this->_graph->operator[](i)->operator[](j) != T(0)) {
+                adjency_matrix->add_edge(i, j, true);
             }
         }
-
-        return adjency_matrix;
     }
-};
+
+    return adjency_matrix;
+}
+}
+;
 
 #endif  // SRC_GRAPH_HPP_
