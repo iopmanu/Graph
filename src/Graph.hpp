@@ -110,26 +110,24 @@ public:
                     parents_sequence->operator[](j) = vertex;
                 }
             }
+        }
+
+        return path_sequence;
     }
 
-    return path_sequence;
-}
+    graph<std::size_t> *get_adjency_matrix() const noexcept {
+        auto adjency_matrix = new graph<std::size_t>(this->_graph->get_size(), this->is_directed);
 
-graph<std::size_t>
-    *get_adjency_matrix() const noexcept {
-    auto adjency_matrix = new graph<std::size_t>(this->_graph->get_size(), this->is_directed);
-
-    for (std::size_t i = 0; i < _graph->get_size(); i++) {
-        for (std::size_t j = 0; j < _graph->get_size(); j++) {
-            if (this->_graph->operator[](i)->operator[](j) != T(0)) {
-                adjency_matrix->add_edge(i, j, true);
+        for (std::size_t i = 0; i < _graph->get_size(); i++) {
+            for (std::size_t j = 0; j < _graph->get_size(); j++) {
+                if (this->_graph->operator[](i)->operator[](j) != T(0)) {
+                    adjency_matrix->add_edge(i, j, true);
+                }
             }
         }
-    }
 
-    return adjency_matrix;
-}
-}
-;
+        return adjency_matrix;
+    }
+};
 
 #endif  // SRC_GRAPH_HPP_
