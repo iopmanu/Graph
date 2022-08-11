@@ -22,6 +22,12 @@ public:
 
     explicit array_sequence(std::size_t _capacity) noexcept : data(new T[_capacity]), capacity(_capacity), size(_capacity) {}
 
+    array_sequence(std::size_t _capacity, const T& value) noexcept : data(new T[_capacity]), capacity(_capacity), size(_capacity) {
+        for (std::size_t i = 0; i < _capacity; i++) {
+            this->data[i] = value;
+        }
+    }
+
     array_sequence(T* source, std::size_t count) noexcept : capacity(count), size(count) { data = std::move(source); }
 
     /*==================================OPERATORS==================================*/
