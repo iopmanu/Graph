@@ -84,10 +84,10 @@ public:
         path_sequence->operator[](started_element) = 0;
 
         for (std::size_t i = 0; i < this->get_elements_quantity(); i++) {
-            std::size_t vertex = 4;
+            std::size_t vertex = INIT_CONST;
 
             for (std::size_t j = 0; j < this->get_elements_quantity(); j++) {
-                if (!visited_sequence->operator[](j) && (vertex == 4 || path_sequence->operator[](j) < path_sequence->operator[](vertex))) {
+                if (!visited_sequence->operator[](j) && (vertex == INIT_CONST || path_sequence->operator[](j) < path_sequence->operator[](vertex))) {
                     vertex = j;
                 }
             }
