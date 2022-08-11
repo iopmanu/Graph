@@ -6,7 +6,9 @@ The task is to implement **Graph** data structure and basic algorithms.
 ## Modifiers
 **add_edge** take two vertexes and create an edge with the given weight-value.  
 **delete_edge** take two vertexes and delete and edge between them.  
+**get_edge_weight** take two vertexes and return weight of the edge between them.
 **find_shortest_path_djkstra** take an vertex index and find the shortest path from all another vertexes.  
+**get_adjency_matrix** return the adjency matrix of the current graph.
 
 ## Based on
 The data organization type of data structure **Graph** is an adjacency matrix.  
