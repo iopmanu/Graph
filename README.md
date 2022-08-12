@@ -20,6 +20,57 @@ The data organization type of data structure **Graph** is an adjacency matrix.
 The basic value of this matrix is the weight of the vertex in graph.  
 I encapsulated the analog of the vector into Graph that I had already developed([Sequence](https://github.com/VanyushaDoronin/Sequence)).
 
+## Graph theory basics
+
+### Introduction
+
+The are 3 basic types for **graphs**: *directed graph*, *undirected graph*, *metagraph*.  
+*V* - finite set of vertexes, *U* - finite set of edges. Graph **G** = <*V*, *U*>.  
+**Undirected graph**  
+**G** = <*V, U*> $$(v_{i}, v_{j}) = (v_{j}, v_{i}), - graph edge$$ $$(v_{i}, v_{i}) - loop$$  
+
+**Directed graph**
+**G** = <*V, U*> $$(v_{i}, v_{j} \not\equiv\ (v_{j}, v_{i}) - arc)$$ , $$(v_{i}, v_{i}) - loop$$  
+
+### How to set graph
+
+**Adjency matrix**
+$$ |a(i, j)| = \left\{ \begin{array}{cl}
+0 & : \ (v_{i}, v_{j}) \notin U \\
+1 & : (v_{i}, v_{j}) \in U
+\end{array} \right. $$
+
+**Adjency matrix directed graph**
+$$ |a(i, j)| = \left\{ \begin{array}{cl}
+0 & : \ (v_{i}, v_{j}) \notin U \\
+1 & : (v_{i}, v_{j}) \in U
+\end{array} \right. $$ 
+
+**Adjency list**  
+It's one way to represent a graph as a collection of vertex lists.  
+Each vertex of the graph corrensponds to a list consisting of the *"neighbors"* of this vertex.  
+
+### Basic terms
+**Vertex degree** is quantity of edges incident to this vertex.  
+
+**Route** is a vertex sequence:
+$$v_{i},v_{1} ... v_{n}$$
+
+**Route** is a **chain** if:
+$$\forall i, j\in [1, n] : i \neq j \Rightarrow u_{i} \neq u_{j}$$
+
+**Path** is the shortest distance between two vertexes.
+$$(v_{i}, v_{j}) \notin U \Rightarrow d(v_{i}, v_{j}) = ∞$$
+
+### Operations
+**Edge deletion**  
+$$G = <V,U> \Rightarrow G <V, U\smallsetminus u >$$
+
+**Vertes deletion**  
+$$G = <V,U> \Rightarrow G <\acute{V}, \acute{U}>$$
+$$\acute{V} = V\smallsetminus v$$
+$$\acute{U} = U\bigcap_{}^{}\acute{V}×\acute{V}$$
+
 ## Djkstra algorithm
 **The problem** is to find shortest paths from a given vertex to all another vertexes.  
 **Algorithm asymptotic** is $$O(n^2 + m)$$
