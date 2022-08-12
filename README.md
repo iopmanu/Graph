@@ -10,8 +10,8 @@ The task is to implement **Graph** data structure and basic algorithms.
 **delete_vertex** delete last vertex with all edges incident to it.  
 **get_edge_weight** take two vertexes and return weight of the edge between them.  
 **find_shortest_path_djkstra** take an vertex index and find the shortest path from all another vertexes.  
-**get_adjency_matrix** return the adjency matrix of the current graph.
-**find_all_shortest_path_wallsher** return the shortest paths matrix.
+**get_adjency_matrix** return the adjency matrix of the current graph.  
+**find_all_shortest_path_wallsher** return the shortest paths matrix.  
 
 ## Based on
 The data organization type of data structure **Graph** is an adjacency matrix.  
