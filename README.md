@@ -16,7 +16,7 @@ The task is to implement **Graph** data structure and basic algorithms.
 ## Based on
 The data organization type of data structure **Graph** is an adjacency matrix.  
 The basic value of this matrix is the weight of the vertex in graph.  
-I encapsulated the analog of the vector into SortedSequence that I had already developed([Sequence](https://github.com/VanyushaDoronin/Sequence)).
+I encapsulated the analog of the vector into Graph that I had already developed([Sequence](https://github.com/VanyushaDoronin/Sequence)).
 
 ## Djkstra algorithm
 **The problem** is to find shortest paths from a given vertex to all another vertexes.  
