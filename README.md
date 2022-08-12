@@ -60,10 +60,10 @@ $$(v_{i}, v_{j}) \notin U \Rightarrow d(v_{i}, v_{j}) = ∞$$
 
 ### Operations
 **Edge deletion**  
-$$G = <V,U> \Rightarrow G <V, U\smallsetminus u >$$
+$$G<V,U> \Rightarrow G <V, U\smallsetminus u >$$
 
 **Vertex deletion**  
-$$G = <V,U> \Rightarrow G <\acute{V}, \acute{U}>$$
+$$G<V,U> \Rightarrow G <\acute{V}, \acute{U}>$$
 $$\acute{V} = V\smallsetminus v$$
 $$\acute{U} = U\bigcap_{}^{}\acute{V}×\acute{V}$$
 
