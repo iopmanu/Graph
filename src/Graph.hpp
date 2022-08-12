@@ -20,7 +20,7 @@ public:
     explicit graph(const std::size_t &elements_count, const bool &direction) noexcept
         : _graph(new array_sequence<array_sequence<T> *>(elements_count)), is_directed(direction) {
         for (std::size_t i = 0; i < _graph->get_size(); i++) {
-            _graph->operator[](i) = new array_sequence<T>(elements_count);
+            _graph->operator[](i) = new array_sequence<T>(elements_count, T(0));
         }
     }
 
@@ -67,9 +67,9 @@ public:
     }
 
     void delete_edge(const std::size_t &first_element, const std::size_t &second_element) noexcept {
-        this->_graph->operator[](second_element)->operator[](first_element) = std::move(SIZE_MAX_LOCAL);
+        this->_graph->operator[](first_element)->operator[](second_element) = std::move(SIZE_MAX_LOCAL);
         if (this->is_directed == false) {
-            this->_graph->operator[](first_element)->operator[](second_element) = std::move(SIZE_MAX_LOCAL);
+            this->_graph->operator[](second_element)->operator[](first_element) = std::move(SIZE_MAX_LOCAL);
         }
     }
 
@@ -96,7 +96,7 @@ public:
 
     array_sequence<std::size_t> *find_shortest_path_djkstra(const std::size_t &started_element) const {
         auto path_sequence = new array_sequence<std::size_t>(_graph->get_size(), SIZE_MAX_LOCAL);
-        auto parents_sequence = new array_sequence<std::size_t>(_graph->get_size());
+        auto parents_sequence = new array_sequence<std::size_t>(_graph->get_size(), size_t(0));
         auto visited_sequence = new array_sequence<bool>(_graph->get_size(), false);
 
         path_sequence->operator[](started_element) = 0;
@@ -127,7 +127,7 @@ public:
                 if (path_sequence->operator[](vertex) + length < path_sequence->operator[](j)) {
                     path_sequence->operator[](j) = path_sequence->operator[](vertex) + length;
                     parents_sequence->operator[](j) = vertex;
-                }
+                } 
             }
         }
 
@@ -159,8 +159,8 @@ public:
 
         for (std::size_t i = 0; i < _graph->get_size(); i++) {
             for (std::size_t j = 0; j < _graph->get_size(); j++) {
-                if (this->_graph->operator[](i)->operator[](j) != SIZE_MAX_LOCAL) {
-                    adjency_matrix->add_edge(i, j, true);
+                if (this->get_edge_weight(i, j) != SIZE_MAX_LOCAL) {
+                    adjency_matrix->add_edge(j, i, true);
                 }
             }
         }
@@ -171,8 +171,9 @@ public:
     array_sequence<std::size_t> *find_minimal_spanning_tree() const noexcept {
         auto spanning_sequence = new array_sequence<T>(_graph->get_size(), SIZE_MAX_LOCAL);   // edges weight
         auto edge_end = new array_sequence<std::size_t>(_graph->get_size(), SIZE_MAX_LOCAL);  // ends of edges
-        auto spanning_tree = new array_sequence<std::size_t>();  // sequence for minimal spanning tree edges(to output)
+        auto spanning_tree = new array_sequence<std::size_t>(_graph->get_size(), SIZE_MAX_LOCAL);  // sequence for minimal spanning tree edges(to output)
         auto is_used = new array_sequence<bool>(_graph->get_size(), false);
+        spanning_tree->erase_all();
         spanning_sequence->operator[](0) = T(0);
 
         for (std::size_t i = 0; i < this->get_elements_quantity(); i++) {
@@ -208,31 +209,42 @@ public:
     }
 
     array_sequence<std::size_t> *breadth_first_search(const std::size_t &start_pos) const noexcept {
-        auto queue = new array_sequence<std::size_t>(_graph->get_size());
-        auto is_used = new array_sequence<bool>(_graph->get_size());
-        auto paths_length = new array_sequence<std::size_t>(_graph->get_size());
-        auto parents = new array_sequence<std::size_t>(_graph->get_size());
+        auto queue = new array_sequence<std::size_t>(_graph->get_size(), 0);
+        auto is_used = new array_sequence<bool>(_graph->get_size(), false);
+        auto paths_length = new array_sequence<std::size_t>(_graph->get_size(), std::size_t(0));
 
         queue->append(start_pos);
         is_used->operator[](start_pos) = true;
-        parents->operator[](start_pos) = SIZE_MAX_LOCAL;
 
         while (!queue->empty()) {
             std::size_t vertex = queue->get_first();
             queue->erase(0);
 
             for (std::size_t i = 0; i < _graph->get_size(); i++) {
-                if (!is_used->operator[](i) && _graph->operator[](i)->operator[](vertex) != SIZE_MAX_LOCAL) {
+                if (!is_used->operator[](i) && this->get_edge_weight(vertex, i) != SIZE_MAX_LOCAL) {
                     is_used->operator[](i) = true;
                     queue->append(i);
                     paths_length->operator[](i) = paths_length->operator[](vertex) + 1;
-                    parents->operator[](i) = vertex;
                 }
             }
         }
 
+        queue->clear();
+        is_used->clear();
+
         return paths_length;
     }
+
+    void depth_first_search(const std::size_t& start_pos, array_sequence<bool> *is_used) const noexcept{
+        is_used->operator[](start_pos) = true;
+
+        for(std::size_t i = 0; i < _graph->get_size(); i++) {
+            if (!is_used->operator[](i)) {
+                depth_first_search(i, is_used);
+            }    
+        }
+    }
+
 };
 
 #endif  // SRC_GRAPH_HPP_

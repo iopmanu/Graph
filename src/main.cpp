@@ -3,6 +3,7 @@
 #include "Graph.hpp"
 
 int main() {
+
     auto source = new graph<int>(5, false, SIZE_MAX_LOCAL);
 
     source->add_edge(0, 1, 2);
@@ -20,7 +21,7 @@ int main() {
     std::cout << "\n\n\n" << source->get_adjency_matrix();
     std::cout << "\n\n\n" << source->find_shortest_path_djkstra(2) << "\n\n\n" << source->breadth_first_search(0) << "\n\n\n" << source->find_all_shortest_path_wallsher();
 
-    std::cout << "\n\n\n" << source->find_minimal_spanning_tree();
+    std::cout << "\n\n\n" << source->find_minimal_spanning_tree() << "\n\n\n";
 
     return 0;
 }
