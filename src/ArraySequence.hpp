@@ -1,11 +1,14 @@
 #ifndef SRC_DYNAMIC_ARRAY_HPP_
 #define SRC_DYNAMIC_ARRAY_HPP_
 
+#include "Graph.hpp"
 #include "Sequence.hpp"
 
 #include <assert.h>
 #include <cstddef>
 #include <iostream>
+
+#define SIZE_MAX_LOCAL 32535
 
 template <typename T>
 class array_sequence : virtual public sequence<T> {
@@ -47,7 +50,11 @@ public:
 
     friend std::ostream& operator<<(std::ostream& out, array_sequence<T>* source) noexcept {
         for (iterator it = source->begin(); it != source->end(); ++it) {
-            out << *it << " ";
+            if (*it == SIZE_MAX_LOCAL) {
+                out << "\t∞";
+            } else {
+                out << "\t" << *it;
+            }
         }
         out << std::endl;
 
