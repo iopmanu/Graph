@@ -167,6 +167,45 @@ public:
 
         return adjency_matrix;
     }
+
+    array_sequence<std::size_t> *find_minimal_spanning_tree() const noexcept {
+        auto spanning_sequence = new array_sequence<T>(_graph->get_size(), SIZE_MAX_LOCAL);   // edges weight
+        auto edge_end = new array_sequence<std::size_t>(_graph->get_size(), SIZE_MAX_LOCAL);  // ends of edges
+        auto spanning_tree = new array_sequence<std::size_t>();  // sequence for minimal spanning tree edges(to output)
+        auto is_used = new array_sequence<bool>(_graph->get_size(), false);
+        spanning_sequence->operator[](0) = T(0);
+
+        for (std::size_t i = 0; i < this->get_elements_quantity(); i++) {
+            std::size_t vertex = INIT_CONST;
+
+            for (std::size_t j = 0; j < this->get_elements_quantity(); j++) {
+                if (!is_used->operator[](j) &&
+                    (vertex == INIT_CONST || spanning_sequence->operator[](j) < spanning_sequence->operator[](vertex))) {
+                    vertex = j;
+                }
+            }
+
+            if (spanning_sequence->operator[](vertex) == SIZE_MAX_LOCAL) {
+                return new array_sequence<std::size_t>(_graph->get_size(), SIZE_MAX_LOCAL);
+            }
+
+            is_used->operator[](vertex) = true;
+
+            if (edge_end->operator[](vertex) != SIZE_MAX_LOCAL) {
+                spanning_tree->append(vertex);
+                spanning_tree->append(edge_end->operator[](vertex));
+            }
+
+            for (std::size_t j = 0; j < this->get_elements_quantity(); j++) {
+                if (this->get_edge_weight(vertex, j) < spanning_sequence->operator[](j)) {
+                    spanning_sequence->operator[](j) = this->get_edge_weight(vertex, j);
+                    edge_end->operator[](j) = vertex;
+                }
+            }
+        }
+
+        return spanning_tree;
+    }
 };
 
 #endif  // SRC_GRAPH_HPP_

@@ -14,10 +14,13 @@ int main() {
     source->add_vertex();
     source->add_edge(0, 5, 11);
     source->add_edge(5, 4, 22);
+   // source->delete_vertex();
 
     std::cout << source << "\n\n\nIs empty: " <<  source->empty() << "\nElements quantity: " << source->get_elements_quantity() << "\nWeight vertex 0 1: " << source->get_edge_weight(0, 1);
 
     std::cout << "\n\n\n" << source->find_shortest_path_djkstra(2) << "\n\n\n" << source->find_all_shortest_path_wallsher();
+
+    std::cout << "\n\n\n" << source->find_minimal_spanning_tree();
 
     return 0;
 }
