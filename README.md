@@ -60,7 +60,9 @@ $$(v_{i}, v_{j}) \notin U \Rightarrow d(v_{i}, v_{j}) = ∞$$
 
 ### Operations
 **Edge deletion**  
-$$G<V,U> \Rightarrow G <\acute{V}, \acute{U}\smallsetminus u >$$
+$$G<V,U> \Rightarrow G <\acute{V}, \acute{U}>$$
+$$\acute{U} = U\smallsetminus u$$
+$$\acute{V} = V$$
 
 **Vertex deletion**  
 $$G<V,U> \Rightarrow G <\acute{V}, \acute{U}>$$
