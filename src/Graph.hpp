@@ -134,7 +134,7 @@ public:
         return path_sequence;
     }
 
-    graph<std::size_t> *find_all_shortest_path_wallsher() {
+    graph<std::size_t> *find_all_shortest_path_wallsher() const noexcept {
         auto path_matrix = new graph<std::size_t>(this->get_elements_quantity(), this->is_directed, SIZE_MAX_LOCAL);
 
         for (std::size_t k = 0; k < _graph->get_size(); k++) {
@@ -159,7 +159,7 @@ public:
 
         for (std::size_t i = 0; i < _graph->get_size(); i++) {
             for (std::size_t j = 0; j < _graph->get_size(); j++) {
-                if (this->_graph->operator[](i)->operator[](j) != T(0)) {
+                if (this->_graph->operator[](i)->operator[](j) != SIZE_MAX_LOCAL) {
                     adjency_matrix->add_edge(i, j, true);
                 }
             }
@@ -205,6 +205,33 @@ public:
         }
 
         return spanning_tree;
+    }
+
+    array_sequence<std::size_t> *breadth_first_search(const std::size_t &start_pos) const noexcept {
+        auto queue = new array_sequence<std::size_t>(_graph->get_size());
+        auto is_used = new array_sequence<bool>(_graph->get_size());
+        auto paths_length = new array_sequence<std::size_t>(_graph->get_size());
+        auto parents = new array_sequence<std::size_t>(_graph->get_size());
+
+        queue->append(start_pos);
+        is_used->operator[](start_pos) = true;
+        parents->operator[](start_pos) = SIZE_MAX_LOCAL;
+
+        while (!queue->empty()) {
+            std::size_t vertex = queue->get_first();
+            queue->erase(0);
+
+            for (std::size_t i = 0; i < _graph->get_size(); i++) {
+                if (!is_used->operator[](i) && _graph->operator[](i)->operator[](vertex) != SIZE_MAX_LOCAL) {
+                    is_used->operator[](i) = true;
+                    queue->append(i);
+                    paths_length->operator[](i) = paths_length->operator[](vertex) + 1;
+                    parents->operator[](i) = vertex;
+                }
+            }
+        }
+
+        return paths_length;
     }
 };
 

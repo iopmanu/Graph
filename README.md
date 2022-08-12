@@ -10,10 +10,10 @@ The task is to implement **Graph** data structure and basic algorithms.
 **delete_vertex** delete last vertex with all edges incident to it.  
 **get_edge_weight** take two vertexes and return weight of the edge between them.  
 **find_shortest_path_djkstra** take an vertex index and find the shortest path from all another vertexes.  
-**get_adjency_matrix** return the adjency matrix of the current graph.  
+**get_adjacency_matrix** return the adjency matrix of the current graph.  
 **find_all_shortest_path_wallsher** return the shortest paths matrix.  
 **find_minimal_spanning_tree** return sequence of vertexes (incoming - outgoing vertex) - it's like a sequence of graph edges. This sequence of graph edges is minimal spanning tree for this graph.  
-
+**breadth_first_search** return lengths of the smallest paths sequence for the given vertex in unweighted graph.  
 
 ## Based on
 The data organization type of data structure **Graph** is an adjacency matrix.  
@@ -34,15 +34,15 @@ The are 3 basic types for **graphs**: *directed graph*, *undirected graph*, *met
 
 ### How to set graph
 
-**Adjency matrix**
+**Adjacency matrix**
 $$a(i,j) =0:(v_{i}, v_{j})\notin U$$
 $$a(i,j) =1:(v_{i}, v_{j})\in U$$
 
-**Adjency matrix directed graph**
+**Adjacency matrix directed graph**
 $$a(i,j) =0:(v_{i}, v_{j})\notin U$$
 $$a(i,j) =1:(v_{i}, v_{j})\in U$$
 
-**Adjency list**  
+**Adjacency list**  
 It's one way to represent a graph as a collection of vertex lists.  
 Each vertex of the graph corrensponds to a list consisting of the *"neighbors"* of this vertex.  
 
@@ -68,6 +68,18 @@ $$\acute{V} = V$$
 $$G<V,U> \Rightarrow G <\acute{V}, \acute{U}>$$
 $$\acute{V} = V\smallsetminus v$$
 $$\acute{U} = U\bigcap_{}^{}\acute{V}×\acute{V}$$
+
+## Breadth-first search
+**The problem** is to find path with the smallest length in unweighted graph( *path* with the least number of edges).  
+**Algorithm asymptotic** is $$O(n + m)$$
+The algorithm itself can be understood as the process of "setting fire" to the graph: at the zero step, we set fire only to the vertex *start_pos*. At each next step, the fire from
+each already burning vertex is spread to all its neighbors; in one iteration of the algorithm, the "ring of fire" is expanded by one in width (hence the name of the algorithm).  
+We use *queue* (adapter on *array_sequence* with push(append) and pop(get_first->erase(0))) to mark vertexes which are already burning. Also we use boolean *sequence* to mark already
+used vertexes and *sequence* of shortest lengths - our **result**.  
+**How to apply**  
+*1. Finding the shortest path in an unweighted graph*  
+*2. Search for connectivity components in a graph*  
+
 
 ## Djkstra algorithm
 **The problem** is to find shortest paths from a given vertex to all another vertexes.  
