@@ -35,16 +35,12 @@ The are 3 basic types for **graphs**: *directed graph*, *undirected graph*, *met
 ### How to set graph
 
 **Adjency matrix**
-$$ |a(i, j)| = \left\{ \begin{array}{cl}
-0 & : \ (v_{i}, v_{j}) \notin U \\
-1 & : (v_{i}, v_{j}) \in U
-\end{array} \right. $$
+$$a(i,j) =0:(v_{i}, v_{j})\notin U$$
+$$a(i,j) =1:(v_{i}, v_{j})\in U$$
 
 **Adjency matrix directed graph**
-$$ |a(i, j)| = \left\{ \begin{array}{cl}
-0 & : \ (v_{i}, v_{j}) \notin U \\
-1 & : (v_{i}, v_{j}) \in U
-\end{array} \right. $$ 
+$$a(i,j) =0:(v_{i}, v_{j})\notin U$$
+$$a(i,j) =1:(v_{i}, v_{j})\in U$$
 
 **Adjency list**  
 It's one way to represent a graph as a collection of vertex lists.  
