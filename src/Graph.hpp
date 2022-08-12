@@ -2,8 +2,9 @@
 #define SRC_GRAPH_HPP_
 
 #include "ArraySequence.hpp"
+#include <iomanip>
 #include <iostream>
-#define SIZE_MAX_LOCAL 32535
+
 #define INIT_CONST SIZE_MAX_LOCAL - 100
 
 /*typename T is element weight*/
@@ -35,16 +36,16 @@ public:
     /*==================================OPERATORS==================================*/
 
     friend std::ostream &operator<<(std::ostream &out, graph<T> *source) noexcept {
-        out << " ";
+        out << "\t";
 
         for (std::size_t i = 0; i < source->_graph->get_size(); i++) {
-            out << " " << i;
+            out << i << "\t";
         }
 
-        out << std::endl;
+        out << std::endl << std::endl;
 
         for (std::size_t i = 0; i < source->_graph->get_size(); i++) {
-            out << i << " " << source->_graph->operator[](i);
+            out << i << source->_graph->operator[](i) << std::endl;
         }
 
         return out;
@@ -66,10 +67,27 @@ public:
     }
 
     void delete_edge(const std::size_t &first_element, const std::size_t &second_element) noexcept {
-        this->_graph->operator[](second_element)->operator[](first_element) = std::move(T(0));
+        this->_graph->operator[](second_element)->operator[](first_element) = std::move(SIZE_MAX_LOCAL);
         if (this->is_directed == false) {
-            this->_graph->operator[](first_element)->operator[](second_element) = std::move(T(0));
+            this->_graph->operator[](first_element)->operator[](second_element) = std::move(SIZE_MAX_LOCAL);
         }
+    }
+
+    void add_vertex() noexcept {
+        this->_graph->append(new array_sequence<T>(this->get_elements_quantity(), SIZE_MAX_LOCAL));
+
+        for (std::size_t i = 0; i < this->get_elements_quantity(); i++) {
+            _graph->operator[](i)->append(SIZE_MAX_LOCAL);
+        }
+    }
+
+    void delete_vertex() noexcept {
+        for (std::size_t i = 0; i < this->get_elements_quantity(); i++) {
+            this->delete_edge(i, this->get_elements_quantity() - 1);
+            _graph->operator[](i)->pop_back();
+        }
+
+        _graph->pop_back();
     }
 
     const T &get_edge_weight(const std::size_t &first_element, const std::size_t &second_element) const noexcept {
@@ -87,7 +105,8 @@ public:
             std::size_t vertex = INIT_CONST;
 
             for (std::size_t j = 0; j < this->get_elements_quantity(); j++) {
-                if (!visited_sequence->operator[](j) && (vertex == INIT_CONST || path_sequence->operator[](j) < path_sequence->operator[](vertex))) {
+                if (!visited_sequence->operator[](j) &&
+                    (vertex == INIT_CONST || path_sequence->operator[](j) < path_sequence->operator[](vertex))) {
                     vertex = j;
                 }
             }
@@ -113,6 +132,26 @@ public:
         }
 
         return path_sequence;
+    }
+
+    graph<std::size_t> *find_all_shortest_path_wallsher() {
+        auto path_matrix = new graph<std::size_t>(this->get_elements_quantity(), this->is_directed, SIZE_MAX_LOCAL);
+
+        for (std::size_t k = 0; k < _graph->get_size(); k++) {
+            for (std::size_t i = 0; i < _graph->get_size(); i++) {
+                for (std::size_t j = 0; j < _graph->get_size(); j++) {
+                    if (_graph->operator[](i)->operator[](j) == T(0) || _graph->operator[](i)->operator[](k) == T(0) ||
+                        _graph->operator[](k)->operator[](j) == T(0)) {
+                        continue;
+                    }
+
+                    path_matrix->add_edge(i, j,
+                                          std::min(this->get_edge_weight(i, j), this->get_edge_weight(i, k) + this->get_edge_weight(k, j)));
+                }
+            }
+        }
+
+        return path_matrix;
     }
 
     graph<std::size_t> *get_adjency_matrix() const noexcept {
