@@ -41,7 +41,7 @@ As in Dijkstra's algorithm, the formula on pseudocode is **path_matrix[i][j] = m
 We have 4 sequences in this algorithm. **Spanning sequence** contains the value of the minimal weight of the edge from vertex *i*, **is_used** for checking inclusion
 in the minimal spanning tree, **edge end** collects the end of edges containing in the **spanning sequence**, **spanning tree** to output our minimal spanning tree.  
 Desired spanning tree is building by adding one edge with the minimal weight at a time.   
-## Graph theory elements 
+### Graph theory elements 
 The minimal spanning tree is a tree without cycles based on vertexes of the main graph. It's easy to understand, that if our current graph has *n* vertexes, then our
 spanning tree will contain *n* vertexes and *n - 1* edges. If the main graph has more than **1** *connected components*, we can't build spanning tree.  
 
