@@ -110,7 +110,8 @@ is a graph containing exactly one connected component. This means, that there is
 **The problem** is to change vertexes numbering according to the topoligical order in the directed graph.  
 **Algorithm asymptotic** is $$O(n + m)$$
 In this algorithm we use depth-first search by launching it from first vertex. Then in the end of depth-first search we prepend the vertex into vertexes sequence.  
-This sequence is topologically ordered set of vertexes - solve of the problem. If our graph have a *cycle*, vertex sequence will remain in the original order.  
+This sequence is topologically ordered set of vertexes - solution of the problem.  
+If our graph have a *cycle*, vertex sequence will remain in the original order.  
 ### Graph theory elements
 **Topological sort**
 is renumbering of the vertexes set so that each edge leads from a vertex with a smaller number to a vertex with a larger one.  
