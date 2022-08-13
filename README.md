@@ -80,6 +80,16 @@ used vertexes and *sequence* of shortest lengths - our **result**.
 *1. Finding the shortest path in an unweighted graph*  
 *2. Search for connectivity components in a graph*  
 
+##Depth-first search
+**The problem** is to traverse graph.
+**Algorithm asymptotic** is $$O(n + m)$$
+**How to apply**  
+*1. Finding connected components*
+*2. Topological sorting*
+*3. Finding the bridges*
+### Graph theory elements
+**Bridge**
+is an edge, whose removal increase quantity of connected components.
 
 ## Djkstra algorithm
 **The problem** is to find shortest paths from a given vertex to all another vertexes.  
