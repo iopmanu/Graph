@@ -4,7 +4,7 @@
 
 int main() {
 
-    auto source = new graph<int>(5, false, SIZE_MAX_LOCAL);
+    auto source = new graph<int>(5, true, SIZE_MAX_LOCAL);
 
     source->add_edge(0, 1, 2);
     source->add_edge(1, 0, 2);
@@ -46,6 +46,10 @@ int main() {
         delete components->operator[](i);
     }
     delete components;
+    
+    auto top_sorted = source->topological_sort();
+    std::cout << "\n\n\n" << top_sorted;
+    delete top_sorted;
 
     delete source;
     return 0;

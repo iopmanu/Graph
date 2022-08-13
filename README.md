@@ -16,6 +16,7 @@ The task is to implement **Graph** data structure and basic algorithms.
 **breadth_first_search** return lengths of the smallest paths sequence for the given vertex in unweighted graph.  
 **depth_first_search** traverse graph and mark all visited vertexes in boolean sequence.  
 **find_connected_components** return sequence of sequences(sequence of connected components) with marked vertexes.  
+**topological_sort** return the ordered sequence of vertexes( *topological order*).  
 
 ## Based on
 The data organization type of data structure **Graph** is an adjacency matrix.  
@@ -97,13 +98,23 @@ is an edge, whose removal increase quantity of connected components.
 **The problem** is to find all connected components.  
 **Algorithm asymptotic** is $$O(n + m)$$
 The algorithm splits the set of all vertexes into groups. Within each group we can build simple chain from each vertex to all others.  
-In this algorithm we use depth first search by launching it from first vertex and all true values in the boolean sequence, which we have obtained, are connected component.  
+In this algorithm we use depth first search by launching it from first vertex and set all true values in the boolean sequence, which we have obtained, are connected component.  
 Then we start dfs with the next remaining vertex.  
 ### Graph theory elements
 **Connected component**
 is the maximal connected subgraph of the graph *G*.  
 **Сonnected graph**
 is a graph containing exactly one connected component. This means, that there is at least one chain between any pair of vertexes.  
+
+## Topological sort
+**The problem** is to change vertexes numbering according to the topoligical order in the directed graph.  
+**Algorithm asymptotic** is $$O(n + m)$$
+In this algorithm we use depth-first search by launching it from first vertex. Then in the end of depth-first search we prepend the vertex into vertexes sequence.  
+This sequence is topologically ordered set of vertexes - solve of the problem. If our graph have a *cycle*, vertex sequence will remain in the original order.  
+### Graph theory elements
+**Topological sort**
+is renumbering of the vertexes set so that each edge leads from a vertex with a smaller number to a vertex with a larger one.  
+Topological sorting may not exist at all — if the graph contains *cycles*.  
 
 ## Djkstra algorithm
 **The problem** is to find shortest paths from a given vertex to all another vertexes.  
