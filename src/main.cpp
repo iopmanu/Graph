@@ -4,7 +4,7 @@
 
 int main() {
 
-    auto source = new graph<int>(5, false, SIZE_MAX_LOCAL);
+    auto source = new graph<int>(5, true, SIZE_MAX_LOCAL);
 
     source->add_edge(0, 1, 2);
     source->add_edge(1, 0, 2);
@@ -34,6 +34,22 @@ int main() {
     auto spanning = source->find_minimal_spanning_tree();
     std::cout << "\n\n\n" << spanning << "\n\n\n";
     delete spanning;
+    
+    auto to_out = new array_sequence<bool>(source->get_elements_quantity(), false);
+    source->depth_first_search(0, to_out);
+    std::cout << to_out;
+    delete to_out;
+
+    auto components = source->find_connected_components();
+    for (std::size_t i = 0; i < components->get_size(); i++) {
+        std::cout << components->operator[](i);
+        delete components->operator[](i);
+    }
+    delete components;
+    
+    auto top_sorted = source->topological_sort();
+    std::cout << "\n\n\n" << top_sorted;
+    delete top_sorted;
 
     delete source;
     return 0;

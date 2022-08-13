@@ -14,6 +14,9 @@ The task is to implement **Graph** data structure and basic algorithms.
 **find_all_shortest_path_wallsher** return the shortest paths matrix.  
 **find_minimal_spanning_tree** return sequence of vertexes (incoming - outgoing vertex) - it's like a sequence of graph edges. This sequence of graph edges is minimal spanning tree for this graph.  
 **breadth_first_search** return lengths of the smallest paths sequence for the given vertex in unweighted graph.  
+**depth_first_search** traverse graph and mark all visited vertexes in boolean sequence.  
+**find_connected_components** return sequence of sequences(sequence of connected components) with marked vertexes.  
+**topological_sort** return the ordered sequence of vertexes( *topological order*).  
 
 ## Based on
 The data organization type of data structure **Graph** is an adjacency matrix.  
@@ -80,6 +83,39 @@ used vertexes and *sequence* of shortest lengths - our **result**.
 *1. Finding the shortest path in an unweighted graph*  
 *2. Search for connectivity components in a graph*  
 
+## Depth-first search
+**The problem** is to traverse graph.  
+**Algorithm asymptotic** is $$O(n + m)$$
+**How to apply**  
+*1. Finding connected components*  
+*2. Topological sorting*  
+*3. Finding the bridges*  
+### Graph theory elements
+**Bridge**
+is an edge, whose removal increase quantity of connected components.
+
+## Finding connected components
+**The problem** is to find all connected components.  
+**Algorithm asymptotic** is $$O(n + m)$$
+The algorithm splits the set of all vertexes into groups. Within each group we can build simple chain from each vertex to all others.  
+In this algorithm we use depth first search by launching it from first vertex and set all true values in the boolean sequence, which we have obtained, are connected component.  
+Then we start dfs with the next remaining vertex.  
+### Graph theory elements
+**Connected component**
+is the maximal connected subgraph of the graph *G*.  
+**Сonnected graph**
+is a graph containing exactly one connected component. This means, that there is at least one chain between any pair of vertexes.  
+
+## Topological sort
+**The problem** is to change vertexes numbering according to the topoligical order in the directed graph.  
+**Algorithm asymptotic** is $$O(n + m)$$
+In this algorithm we use depth-first search by launching it from first vertex. Then in the end of depth-first search we prepend the vertex into vertexes sequence.  
+This sequence is topologically ordered set of vertexes - solution of the problem.  
+If our graph have a *cycle*, vertex sequence will remain in the original order.  
+### Graph theory elements
+**Topological sort**
+is renumbering of the vertexes set so that each edge leads from a vertex with a smaller number to a vertex with a larger one.  
+Topological sorting may not exist at all — if the graph contains *cycles*.  
 
 ## Djkstra algorithm
 **The problem** is to find shortest paths from a given vertex to all another vertexes.  

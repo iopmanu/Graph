@@ -2,6 +2,7 @@
 #define SRC_GRAPH_HPP_
 
 #include "ArraySequence.hpp"
+#include <algorithm>
 #include <iomanip>
 #include <iostream>
 
@@ -196,6 +197,10 @@ public:
             }
 
             if (spanning_sequence->operator[](vertex) == SIZE_MAX_LOCAL) {
+                delete is_used;
+                delete spanning_sequence;
+                delete edge_end;
+                delete spanning_tree;
                 return new array_sequence<std::size_t>(_graph->get_size(), SIZE_MAX_LOCAL);
             }
 
@@ -252,10 +257,70 @@ public:
         is_used->operator[](start_pos) = true;
 
         for (std::size_t i = 0; i < _graph->get_size(); i++) {
-            if (!is_used->operator[](i)) {
+            if (!is_used->operator[](i) && this->get_edge_weight(start_pos, i) != SIZE_MAX_LOCAL) {
                 depth_first_search(i, is_used);
             }
         }
+    }
+
+    void topological_depth_search(const std::size_t &start_pos, array_sequence<bool> *is_used,
+                                  array_sequence<std::size_t> *new_order) const noexcept {
+        is_used->operator[](start_pos) = true;
+
+        for (std::size_t i = 0; i < _graph->get_size(); i++) {
+            if (!is_used->operator[](i) && this->get_edge_weight(start_pos, i) != SIZE_MAX_LOCAL) {
+                topological_depth_search(i, is_used, new_order);
+            }
+        }
+
+        new_order->append(start_pos);
+    }
+
+    array_sequence<array_sequence<std::size_t> *> *find_connected_components() const noexcept {
+        auto connected_components_list = std::move(new array_sequence<array_sequence<std::size_t> *>(_graph->get_size()));
+        connected_components_list->erase_all();
+        auto is_used = new array_sequence<bool>(_graph->get_size(), false);
+
+        for (std::size_t i = 0; i < _graph->get_size(); i++) {
+            if (!is_used->operator[](i)) {
+                delete is_used;
+                is_used = new array_sequence<bool>(_graph->get_size(), false);
+
+                this->depth_first_search(i, is_used);
+                auto component = new array_sequence<std::size_t>(_graph->get_size(), SIZE_MAX_LOCAL);
+                component->erase_all();
+
+                for (std::size_t j = 0; j < _graph->get_size(); j++) {
+                    if (is_used->operator[](j)) {
+                        component->append(j);
+                    }
+                }
+
+                connected_components_list->append(component);
+            }
+        }
+
+        delete is_used;
+
+        return connected_components_list;
+    }
+
+    array_sequence<std::size_t> *topological_sort() const noexcept {
+        auto is_used = new array_sequence<bool>(_graph->get_size(), false);
+        auto new_order_vertexes = new array_sequence<std::size_t>(_graph->get_size(), false);
+        new_order_vertexes->erase_all();
+
+        for (std::size_t i = 0; i < _graph->get_size(); i++) {
+            if (!is_used->operator[](i)) {
+                topological_depth_search(i, is_used, new_order_vertexes);
+            }
+        }
+
+        delete is_used;
+
+        std::reverse(new_order_vertexes->begin(), new_order_vertexes->end());
+
+        return new_order_vertexes;
     }
 };
 
