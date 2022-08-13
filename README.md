@@ -84,9 +84,9 @@ used vertexes and *sequence* of shortest lengths - our **result**.
 **The problem** is to traverse graph.
 **Algorithm asymptotic** is $$O(n + m)$$
 **How to apply**  
-*1. Finding connected components*
-*2. Topological sorting*
-*3. Finding the bridges*
+*1. Finding connected components*  
+*2. Topological sorting*  
+*3. Finding the bridges*  
 ### Graph theory elements
 **Bridge**
 is an edge, whose removal increase quantity of connected components.
