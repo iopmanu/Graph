@@ -31,7 +31,13 @@ public:
         }
     }
 
-    ~graph() = default;
+    ~graph() {
+        for (std::size_t i = 0; i < _graph->get_size(); i++) {
+            delete _graph->operator[](i);
+        }
+
+        delete _graph;
+    }
 
     /*==================================OPERATORS==================================*/
 
@@ -127,9 +133,12 @@ public:
                 if (path_sequence->operator[](vertex) + length < path_sequence->operator[](j)) {
                     path_sequence->operator[](j) = path_sequence->operator[](vertex) + length;
                     parents_sequence->operator[](j) = vertex;
-                } 
+                }
             }
         }
+
+        delete parents_sequence;
+        delete visited_sequence;
 
         return path_sequence;
     }
@@ -145,7 +154,7 @@ public:
                         continue;
                     }
 
-                    path_matrix->add_edge(i, j,
+                    path_matrix->add_edge(j, i,
                                           std::min(this->get_edge_weight(i, j), this->get_edge_weight(i, k) + this->get_edge_weight(k, j)));
                 }
             }
@@ -171,7 +180,7 @@ public:
     array_sequence<std::size_t> *find_minimal_spanning_tree() const noexcept {
         auto spanning_sequence = new array_sequence<T>(_graph->get_size(), SIZE_MAX_LOCAL);   // edges weight
         auto edge_end = new array_sequence<std::size_t>(_graph->get_size(), SIZE_MAX_LOCAL);  // ends of edges
-        auto spanning_tree = new array_sequence<std::size_t>(_graph->get_size(), SIZE_MAX_LOCAL);  // sequence for minimal spanning tree edges(to output)
+        auto spanning_tree = new array_sequence<std::size_t>(_graph->get_size());  // sequence for minimal spanning tree edges(to output)
         auto is_used = new array_sequence<bool>(_graph->get_size(), false);
         spanning_tree->erase_all();
         spanning_sequence->operator[](0) = T(0);
@@ -193,8 +202,8 @@ public:
             is_used->operator[](vertex) = true;
 
             if (edge_end->operator[](vertex) != SIZE_MAX_LOCAL) {
-                spanning_tree->append(vertex);
                 spanning_tree->append(edge_end->operator[](vertex));
+                spanning_tree->append(vertex);
             }
 
             for (std::size_t j = 0; j < this->get_elements_quantity(); j++) {
@@ -204,6 +213,10 @@ public:
                 }
             }
         }
+
+        delete is_used;
+        delete spanning_sequence;
+        delete edge_end;
 
         return spanning_tree;
     }
@@ -229,22 +242,21 @@ public:
             }
         }
 
-        queue->clear();
-        is_used->clear();
+        delete is_used;
+        delete queue;
 
         return paths_length;
     }
 
-    void depth_first_search(const std::size_t& start_pos, array_sequence<bool> *is_used) const noexcept{
+    void depth_first_search(const std::size_t &start_pos, array_sequence<bool> *is_used) const noexcept {
         is_used->operator[](start_pos) = true;
 
-        for(std::size_t i = 0; i < _graph->get_size(); i++) {
+        for (std::size_t i = 0; i < _graph->get_size(); i++) {
             if (!is_used->operator[](i)) {
                 depth_first_search(i, is_used);
-            }    
+            }
         }
     }
-
 };
 
 #endif  // SRC_GRAPH_HPP_

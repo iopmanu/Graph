@@ -2,7 +2,6 @@
 #define SRC_DYNAMIC_ARRAY_HPP_
 
 #include "Graph.hpp"
-#include "Sequence.hpp"
 
 #include <assert.h>
 #include <cstddef>
@@ -11,7 +10,7 @@
 #define SIZE_MAX_LOCAL 32535
 
 template <typename T>
-class array_sequence : virtual public sequence<T> {
+class array_sequence {
 private:
     T* data;
     std::size_t capacity;
@@ -21,6 +20,7 @@ private:
 
 public:
     /*==================================CONSTRUCTORS==================================*/
+
     explicit array_sequence() noexcept : data(new T[0]), capacity(0), size(0) {}
 
     explicit array_sequence(std::size_t _capacity) noexcept : data(new T[_capacity]), capacity(_capacity), size(_capacity) {}
@@ -32,7 +32,9 @@ public:
     }
 
     array_sequence(T* source, std::size_t count) noexcept : capacity(count), size(count) { data = std::move(source); }
-    
+
+    ~array_sequence() { this->clear(); }
+
     /*==================================OPERATORS==================================*/
     inline T& operator[](const std::size_t& index) {
         assert(index < this->size);
@@ -90,6 +92,7 @@ public:
         std::copy(this->begin(), this->end(), new_data);
         this->capacity = _capacity;
 
+        delete[] data;
         data = std::move(new_data);
     }
 
@@ -144,7 +147,7 @@ public:
     }
 
     void erase_all() {
-        while(!this->empty()) {
+        while (!this->empty()) {
             this->erase(0);
         }
     }

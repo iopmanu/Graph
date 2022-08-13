@@ -18,10 +18,23 @@ int main() {
 
     std::cout << source << "\n\n\nIs empty: " <<  source->empty() << "\nElements quantity: " << source->get_elements_quantity() << "\nWeight vertex 0 1: " << source->get_edge_weight(0, 1);
     
-    std::cout << "\n\n\n" << source->get_adjency_matrix();
-    std::cout << "\n\n\n" << source->find_shortest_path_djkstra(2) << "\n\n\n" << source->breadth_first_search(0) << "\n\n\n" << source->find_all_shortest_path_wallsher();
+    auto adjency_matrix = source->get_adjency_matrix();
+    std::cout << "\n\n\n" << adjency_matrix;
+    delete adjency_matrix;
 
-    std::cout << "\n\n\n" << source->find_minimal_spanning_tree() << "\n\n\n";
+    auto djkstra = source->find_shortest_path_djkstra(2);
+    auto wallsher = source->find_all_shortest_path_wallsher();
+    auto breadth_search = source->breadth_first_search(2);
 
+    std::cout << "\n\n\n" << djkstra << "\n\n\n" << breadth_search << "\n\n\n" << wallsher;
+    delete djkstra;
+    delete wallsher;
+    delete breadth_search;
+
+    auto spanning = source->find_minimal_spanning_tree();
+    std::cout << "\n\n\n" << spanning << "\n\n\n";
+    delete spanning;
+
+    delete source;
     return 0;
 }
