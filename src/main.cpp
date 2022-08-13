@@ -34,6 +34,18 @@ int main() {
     auto spanning = source->find_minimal_spanning_tree();
     std::cout << "\n\n\n" << spanning << "\n\n\n";
     delete spanning;
+    
+    auto to_out = new array_sequence<bool>(source->get_elements_quantity(), false);
+    source->depth_first_search(0, to_out);
+    std::cout << to_out;
+    delete to_out;
+
+    auto components = source->find_connected_components();
+    for (std::size_t i = 0; i < components->get_size(); i++) {
+        std::cout << components->operator[](i);
+        delete components->operator[](i);
+    }
+    delete components;
 
     delete source;
     return 0;

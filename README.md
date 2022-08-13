@@ -14,6 +14,8 @@ The task is to implement **Graph** data structure and basic algorithms.
 **find_all_shortest_path_wallsher** return the shortest paths matrix.  
 **find_minimal_spanning_tree** return sequence of vertexes (incoming - outgoing vertex) - it's like a sequence of graph edges. This sequence of graph edges is minimal spanning tree for this graph.  
 **breadth_first_search** return lengths of the smallest paths sequence for the given vertex in unweighted graph.  
+**depth_first_search** traverse graph and mark all visited vertexes in boolean sequence.  
+**find_connected_components** return sequence of sequences(sequence of connected components) with marked vertexes.  
 
 ## Based on
 The data organization type of data structure **Graph** is an adjacency matrix.  
@@ -81,7 +83,7 @@ used vertexes and *sequence* of shortest lengths - our **result**.
 *2. Search for connectivity components in a graph*  
 
 ## Depth-first search
-**The problem** is to traverse graph.
+**The problem** is to traverse graph.  
 **Algorithm asymptotic** is $$O(n + m)$$
 **How to apply**  
 *1. Finding connected components*  
@@ -90,6 +92,18 @@ used vertexes and *sequence* of shortest lengths - our **result**.
 ### Graph theory elements
 **Bridge**
 is an edge, whose removal increase quantity of connected components.
+
+## Finding connected components
+**The problem** is to find all connected components.  
+**Algorithm asymptotic** is $$O(n + m)$$
+The algorithm splits the set of all vertexes into groups. Within each group we can build simple chain from each vertex to all others.  
+In this algorithm we use depth first search by launching it from first vertex and all true values in the boolean sequence, which we have obtained, are connected component.  
+Then we start dfs with the next remaining vertex.  
+### Graph theory elements
+**Connected component**
+is the maximal connected subgraph of the graph *G*.  
+**Сonnected graph**
+is a graph containing exactly one connected component. This means, that there is at least one chain between any pair of vertexes.  
 
 ## Djkstra algorithm
 **The problem** is to find shortest paths from a given vertex to all another vertexes.  
