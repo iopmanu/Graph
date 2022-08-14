@@ -5,7 +5,7 @@ The task is to implement **Graph** data structure and basic algorithms.
 
 ## Modifiers
 **add_edge** take two vertexes and create an edge with the given weight-value.  
-**delete_edge** take two vertexes and delete and edge between them.  
+**delete_edge** take two vertexes and delete an edge between them.  
 **add_vertex** add a nonadjacent vertex to the graph.  
 **delete_vertex** delete last vertex with all edges incident to it.  
 **get_edge_weight** take two vertexes and return weight of the edge between them.  
@@ -32,8 +32,8 @@ The are 3 basic types for **graphs**: *directed graph*, *undirected graph*, *met
 **Undirected graph**  
 **G** = <*V, U*> $$(v_{i}, v_{j}) = (v_{j}, v_{i}), - graph edge$$ $$(v_{i}, v_{i}) - loop$$  
 
-**Directed graph**
-**G** = <*V, U*> $$(v_{i}, v_{j} \not\equiv\ (v_{j}, v_{i}) - arc)$$ , $$(v_{i}, v_{i}) - loop$$  
+**Directed graph**  
+**G** = <*V, U*> $$(v_{i}, v_{j}) \not\equiv\ (v_{j}, v_{i}), - arc$$ $$(v_{i}, v_{i}) - loop$$  
 
 ### How to set graph
 
