@@ -1,7 +1,7 @@
 .PHONY: clean
 
 CC=g++
-FLAGS=-Wall -Wextra -Werror -g
+FLAGS=-Wall -Wextra -Werror -g -pedantic
 BUILD=../build/
 
 main: main.o
