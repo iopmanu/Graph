@@ -33,7 +33,7 @@ The are 3 basic types for **graphs**: *directed graph*, *undirected graph*, *met
 **G** = <*V, U*> $$(v_{i}, v_{j}) = (v_{j}, v_{i}), - graph edge$$ $$(v_{i}, v_{i}) - loop$$  
 
 **Directed graph**  
-**G** = <*V, U*> $$(v_{i}, v_{j}) \not\equiv\ (v_{j}, v_{i}), - arc$$ $$(v_{i}, v_{i}) - loop$$  
+**G** = <*V, U*> $$(v_{i}, v_{j}) \neq (v_{j}, v_{i}), - arc$$ $$(v_{i}, v_{i}) - loop$$  
 
 ### How to set graph
 
